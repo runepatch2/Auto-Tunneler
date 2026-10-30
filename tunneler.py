@@ -26,20 +26,30 @@ def faceForward(direction):
     if direction == "S": minescript.player_set_orientation(0, 0)
 
 def hugBlock():
+    direction = getDirection()
+    offset = 0
+    if direction == "E" or direction == "S": offset = 1.3
+    else: offset = 1.8
     distance = minescript.player_get_targeted_block().distance
-    while (distance > 1.8):
+    while (distance > offset):
         distance = minescript.player_get_targeted_block().distance
-        print(distance)
         minescript.player_press_forward(True)
     minescript.player_press_forward(False)
 
 def mineBlocks():
+    direction = getDirection()
+    offset = 0
+    if direction == "E" or direction == "S": offset = 1.3
+    else: offset = 1.8
     topBroken = False
     bottomBroken = False
     distance = getDistance()
     while not topBroken:
         distance = getDistance()
-        if distance < 1.8:
+        print(f"Distance: {distance}")
+        if distance > 2:
+            topBroken = False
+        if distance < offset:
             minescript.player_press_attack(True)
         else: 
             minescript.player_press_attack(False)
@@ -56,9 +66,6 @@ def mineBlocks():
         minescript.player_press_attack(True)
     minescript.player_press_attack(False)
     print("BOTTOM BROKEN")
-
-
-
     
 
 # Once block is broken (distance detected), face down by 35 degrees
